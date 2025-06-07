@@ -6,6 +6,12 @@
     body { font-family: sans-serif; background: #f2f2f2; padding: 20px; }
     #messages { list-style: none; padding: 0; }
     #messages li { background: #ddd; margin-bottom: 10px; padding: 5px; border-radius: 5px; }
+
+    #typing {
+    font-style: italic;
+    color: gray;
+    margin-top: 10px;
+  }
   </style>
 </head>
 <body>
@@ -21,6 +27,24 @@
     const socket = io();
     const form = document.getElementById('form');
     const input = document.getElementById('input');
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typing';
+    document.body.appendChild(typingDiv);
+
+    //detect typing
+    input.addEventListener('input', ()=>{
+        socket.email('typing', {user: username, room: room});
+    })
+
+    //listen to others typing
+    socket.on('typing', (data)=>{
+        typingDiv.textContent = `${data.user} is typing...`;
+        clearTimeout(window.typingTimeout);
+        window.typingTimeout = setTimeout(()=>{
+            typingDiv.textContent = '';
+        },1000);//clear after 1s of inactivity
+    })
+
     const messages = document.getElementById('messages');
 
     //asl username

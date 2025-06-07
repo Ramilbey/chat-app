@@ -10,6 +10,12 @@ app.use(express.static("public"));
 
 io.on("connection", (socket) => {
     console.log("🟢 A user connected");
+
+    socket.on('typing', (data) => {
+        socket.to(data.room).emit("typing", {
+            user: data.user
+        })
+    })
     
     socket.on('join room', (room) => {
         socket.join(room);
