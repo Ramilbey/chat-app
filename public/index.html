@@ -33,7 +33,7 @@
 
     //detect typing
     input.addEventListener('input', ()=>{
-        socket.email('typing', {user: username, room: room});
+        socket.emit('typing', {user: username, room: room});
     })
 
     //listen to others typing
@@ -42,7 +42,7 @@
         clearTimeout(window.typingTimeout);
         window.typingTimeout = setTimeout(()=>{
             typingDiv.textContent = '';
-        },1000);//clear after 1s of inactivity
+        },3000);//clear after 1s of inactivity
     })
 
     const messages = document.getElementById('messages');
