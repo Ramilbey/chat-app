@@ -38,11 +38,11 @@
       }
     });
 
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', (data) => {
       const li = document.createElement('li');
-      li.textContent = msg;
+      li.textContent = `${data.user}: ${data.text}`;
       messages.appendChild(li);
-      window.scrollTo(0, document.body.scrollHeight);
+    //   window.scrollTo(0, document.body.scrollHeight);
     });
   </script>
 </body>
