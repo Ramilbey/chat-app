@@ -23,10 +23,17 @@
     const input = document.getElementById('input');
     const messages = document.getElementById('messages');
 
+    //asl username
+    const username = prompt("Enter your name: ");
+
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (input.value) {
-        socket.emit('chat message', input.value);
+        socket.emit('chat message', {
+            user: username,
+            text: input.value
+        });
         input.value = '';
       }
     });
