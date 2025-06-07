@@ -9,8 +9,14 @@ const io = socketIo(server);
 app.use(express.static("public"));
 
 io.on("connection", (socket) => {
-  console.log("🟢 A user connected");
+    console.log("🟢 A user connected");
+    
+    socket.on('join room', (room) => {
+        socket.join(room);
+        console.log(`User joined room: ${room}`);
+    })
 
+    
   socket.on("chat message", (data) => {
     io.emit("chat message", {
       user: data.user,

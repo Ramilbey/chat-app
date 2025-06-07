@@ -25,6 +25,10 @@
 
     //asl username
     const username = prompt("Enter your name: ");
+    //ask room
+    const room = prompt('Enter room name (e.g., A or B):');
+
+    socket.emit("join room", room); // tell the server which room to join
 
 
     form.addEventListener('submit', (e) => {
@@ -32,7 +36,8 @@
       if (input.value) {
         socket.emit('chat message', {
             user: username,
-            text: input.value
+            text: input.value,
+            room: room
         });
         input.value = '';
       }
@@ -42,7 +47,6 @@
       const li = document.createElement('li');
       li.textContent = `${data.user}: ${data.text}`;
       messages.appendChild(li);
-    //   window.scrollTo(0, document.body.scrollHeight);
     });
   </script>
 </body>
