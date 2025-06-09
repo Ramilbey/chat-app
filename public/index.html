@@ -52,7 +52,7 @@
     //ask room
     const room = prompt('Enter room name (e.g., A or B):');
 
-    socket.emit("join room", room); // tell the server which room to join
+    socket.emit("join room",{user: username, room: room}); // tell the server which room to join
 
 
     form.addEventListener('submit', (e) => {
