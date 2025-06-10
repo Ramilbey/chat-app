@@ -10,7 +10,7 @@ const usersInRoom = {};
 app.use(express.static("public"));
 
 io.on("connection", (socket) => {
-  console.log("🟢 A user connected");
+  console.log(`🟢 A user connected`);
 
   socket.on("typing", (data) => {
     socket.to(data.room).emit("typing", {
@@ -20,7 +20,9 @@ io.on("connection", (socket) => {
 
   socket.on("join room", ({ user, room }) => {
     socket.join(room);
-    console.log(`${user} joined room: ${room}`);
+      console.log(`${user} joined room: ${room}`);
+      socket.username = user; //store user name
+      socket.room = room; //store room
 
     if (!usersInRoom[room]) usersInRoom[room] = [];
     usersInRoom[room].push({ id: socket.id, name: user });
@@ -38,8 +40,14 @@ io.on("connection", (socket) => {
     io.to(data.room).emit("chat message", data); // ✅ fixed here
   });
 
-  socket.on("disconnect", () => {
-      console.log("🔴 A user disconnected");
+    socket.on("disconnect", ({user, room}) => {
+        console.log(`🔴 ${user} left ${room}`);
+        
+        socket.to(room).emit('chat message', {
+            user: 'system',
+            text: `${user} left`,
+            room: room,
+        })
       
       for (let room in usersInRoom) {
           usersInRoom[room] = usersInRoom[room].filter(u => u.id !== socket.id);
