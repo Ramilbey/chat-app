@@ -72,6 +72,17 @@
       li.textContent = `${data.user}: ${data.text}`;
       messages.appendChild(li);
     });
+
+    const userList = document.getElementById('user-list');
+
+    socket.on('user list', (users)=>{
+        userList.innerHTML = ""; //clear old list
+        users.forEach(user =>{
+            const li = document.createElement("li");
+            li.textContent = user.name;
+            userList.appendChild(li);
+        })
+    })
   </script>
 </body>
 </html>
