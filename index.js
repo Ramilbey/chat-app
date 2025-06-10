@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
     if (user && room) {
       socket.to(room).emit("chat message", {
         user: "system",
-        text: `${user} left`,
+        text: `${user} left this group`,
         room: room,
       });
 
