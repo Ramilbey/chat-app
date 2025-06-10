@@ -38,7 +38,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("🔴 A user disconnected");
+      console.log("🔴 A user disconnected");
+      
+      for (let room in usersInRoom) {
+          usersInRoom[room] = usersInRoom[room].filter(u => u.id !== socket.id);
+          io.to(room).emit("user list" , usersInRoom[room])
+      }
   });
 });
 
