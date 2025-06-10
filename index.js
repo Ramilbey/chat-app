@@ -31,6 +31,7 @@ io.on("connection", (socket) => {
       text: `${user} joined the room`,
       room: room,
     });
+      io.to(room).emmit('user list', usersInRoom[room])
   });
 
   socket.on("chat message", (data) => {
