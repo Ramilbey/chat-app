@@ -4,7 +4,12 @@ const socketIo = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // ⚠️ Only use this for development
+    methods: ["GET", "POST"],
+  },
+});
 const usersInRoom = {};
 
 app.use(express.static("public"));
@@ -59,6 +64,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+server.listen(4000, () => {
+  console.log("Server running on http://localhost:4000");
 });
